@@ -1,0 +1,204 @@
+import React, { Component } from 'react';
+import { Line } from 'react-chartjs-2';
+import { FormGroup, Input, Form, Label, Col, FormText, Button } from "reactstrap";
+import '../test.css'
+
+const datasProps = {
+  labels: [],
+  datasets: [
+    {
+      data: []
+    }
+  ]
+};
+const chartDataUiParam = {
+
+  label: '',
+  fill: false,
+  lineTension: 0.1,
+  backgroundColor: 'rgba(75,192,192,0.4)',
+  borderColor: 'rgba(75,192,192,1)',
+  borderCapStyle: 'butt',
+  borderDash: [],
+  borderDashOffset: 0.0,
+  borderJoinStyle: 'miter',
+  pointBorderColor: 'rgba(75,192,192,1)',
+  pointBackgroundColor: '#fff',
+  pointBorderWidth: 1,
+  pointHoverRadius: 5,
+  pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+  pointHoverBorderColor: 'rgba(220,220,220,1)',
+  pointHoverBorderWidth: 2,
+  pointRadius: 1,
+  pointHitRadius: 10,
+}
+
+class LineChart extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state =
+      {
+        mdIsSet: '',
+        mfIsSet: '',
+        agIsSet: '',
+        anIsSet: '',
+        agence: '',
+        annee: '',
+        moisDebut: '',
+        moisFin: '',
+        responseToPost: '',
+        dataToSend: []
+      }
+    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleOnChange = this.handleOnChange.bind(this);
+
+  };
+  handleSubmit = async e => {
+    e.preventDefault();
+    const response = await fetch('/service/tauxDactivite',
+      {
+        method: 'POST',
+        headers:
+        {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            annee: this.state.annee,
+            moisDebut: this.state.moisDebut,
+            moisFin: this.state.moisFin
+          }),
+      });
+    const body = await response.text();
+    this.setState({ responseToPost: JSON.parse(body) });
+    var dataPropsUpdate =
+    {
+      ...datasProps,
+      labels: this.state.responseToPost.mois,
+      datasets: [{
+        ...chartDataUiParam,
+        data: this.state.responseToPost.taux
+      }]
+    };
+    this.setState({ dataToSend: dataPropsUpdate });
+    console.log(dataPropsUpdate);
+    console.log("to send : " + this.state.dataToSend);
+
+  };
+  render() {
+    return (
+      <div>
+        <Form onSubmit={this.handleSubmit}>
+          <FormGroup row>
+            <Label for="exampleEmail" md={4}>Agence :</Label>
+            <Col md={{ size: 4, order: 1, offset: -1 }}>
+              <Input valid={this.state.agIsSet} invalid={!this.state.agIsSet}
+                type="select"
+                id="selectAgence"
+                name="selectbasic"
+                value={this.state.agence}
+                onChange={e => {
+                  this.setState({ agence: e.target.value })
+                  if (e.target.value !== "00") {
+                    this.setState({ agIsSet: true })
+                  }
+                  else { this.setState({ agIsSet: false }) }
+
+                }
+                }
+              >
+                <option value="00" defaultValue >Choisir une agence</option>
+                <option value="siege plateau">Siège plateau</option>
+                <option value="Nanan Yamousso">Nanan Yamousso</option>
+              </Input>
+              <FormText hidden={this.state.agIsSet}>Selectionner une agence</FormText>                
+            </Col>
+            <Label for="exampleEmail3" md={4}>Mois de debut</Label>
+            <Col md={{ size: 4, order: 1, offset: - 1 }}>
+              <Input valid={this.state.mdIsSet} invalid={!this.state.mdIsSet}
+                type="select"
+                id="selectAgence"
+                name="selectbasic"
+                value={this.state.moisDebut}
+                onChange={e => {
+                  this.setState({ moisDebut: e.target.value })
+                  if (e.target.value !== "00") {
+                    this.setState({ mdIsSet: true })
+                  }
+                  else { this.setState({ mdIsSet: false }) }
+                }}
+              >
+                <option value="00" defaultValue >Choisir le mois de debut</option>
+                <option value="01/1900">Janvier</option>
+                <option value="02/1900">Février</option>
+                <option value="03/1900">Mars</option>
+                <option value="04/1900">Avril</option>
+                <option value="05/1900">Mai</option>
+                <option value="06/1900">Juin</option>
+                <option value="07/1900">Juillet</option>
+                <option value="08/1900">Août</option>
+                <option value="09/1900">Septembre</option>
+                <option value="10/1900">Octobre</option>
+                <option value="11/1900">Novembre</option>
+                <option value="12/1900">Décembre</option>
+              </Input>
+              <FormText hidden={this.state.mdIsSet}>Selectionner un mois valide</FormText>                
+            </Col>
+            <Label for="exampleEmail2" sm={4}>Mois de fin</Label>
+            <Col md={{ size: 4, order: 2, offset: -1 }}>
+              <Input valid={this.state.mfIsSet} invalid={!this.state.mfIsSet}
+                type="select"
+                name="select"
+                id="selectMoisFin"
+                value={this.state.moisFin}
+                onChange={e => {
+                  this.setState({ moisFin: e.target.value })
+
+                  if (e.target.value !== "00") {
+                    this.setState({ mfIsSet: true })
+                  }
+                  else { this.setState({ mfIsSet: false }) }
+
+                }
+                }
+              >
+                <option value="00" defaultValue >Choisir le mois de fin</option>
+                <option value="01/1900">Janvier</option>
+                <option value="02/1900">Février</option>
+                <option value="03/1900">Mars</option>
+                <option value="04/1900">Avril</option>
+                <option value="05/1900">Mai</option>
+                <option value="06/1900">Juin</option>
+                <option value="07/1900">Juillet</option>
+                <option value="08/1900">Août</option>
+                <option value="09/1900">Septembre</option>
+                <option value="10/1900">Octobre</option>
+                <option value="11/1900">Novembre</option>
+                <option value="12/1900">Décembre</option>
+              </Input>
+              <FormText hidden={this.state.mfIsSet}>Selectionner un mois valide</FormText>                
+            </Col>
+          </FormGroup>
+          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet)}
+            >Valider</Button>
+        </Form>
+        <h2 >Courbe du Taux d'activité</h2>
+        <Line ref="chart" data={this.state.dataToSend} />
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    this.setState.datas = this.refs.chart.chartInstance.data
+    // {console.log(this.state.datas)}
+
+  }
+
+  componentDidUpdate() {
+    //    return (<Line data={this.state.dataToSend} />);
+    //this.setState.datas  = this.refs.chart.chartInstance.data    
+  }
+
+}
+export default LineChart;
