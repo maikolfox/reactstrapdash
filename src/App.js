@@ -4,7 +4,7 @@
  //import LayOutHandler from "./components/LayOutHandler";
  import NavBarMain from "./components/NavBarMain";
  //import Modal from "./components/Modal";
- import "./components/test.css";
+ import "./components/css/main.css";
  //import  MainNavHeader from"./components/MainNavHeader";
 // import {  Row } from "reactstrap";
 

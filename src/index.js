@@ -5,10 +5,17 @@ import App from './App';
 import { Route, //Link, 
   BrowserRouter as Router //Switch 
 } from 'react-router-dom';
-import { Container, Row, Col, ListGroup, ListGroupItem, 
-  //Card, CardTitle, Button 
-} from "reactstrap";
+import 
+{ 
+  Container, 
+  Row, 
+  Col, 
+  ListGroup, 
+  ListGroupItem
+} 
+from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./components/css/main.css";
 
 
 import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
@@ -18,7 +25,6 @@ import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
 
 //import { createBrowserHistory } from "history";
 // import indexRoutes from "./route/index.jsx";
-
  const routing = (
  <Router>
      <App/>
@@ -34,7 +40,9 @@ import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
               <ListGroupItem tag="a" href="/contact">Charge et poids par processus</ListGroupItem>
               <ListGroupItem tag="a" href="/">Charge et poids par tache et par processus</ListGroupItem>
               <ListGroupItem tag="a" href="/">Charge et poids par tache et par metier</ListGroupItem>
-            </ListGroup>
+              <ListGroupItem tag="a" href="/">Parametrage système</ListGroupItem>
+
+          </ListGroup>
          </Col>
          <Col md="9"> <Route path="/TauxDactivite" component={TauxDactivite} /></Col>
          </Row>

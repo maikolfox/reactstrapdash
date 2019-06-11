@@ -1,3 +1,7 @@
+#ajusteView{
+margin-left: 111167%;
+
+}
 .sideHeader  {
 
     background-color: #be000e;
@@ -13,8 +17,11 @@
     text-decoration: none;
   }
   
-  
+  .sideFocus
+{
+  background-color: #172935;
 
+}
   .headerStyle{
 
     background-color: #172935;
@@ -48,8 +55,19 @@ a{
 }
 
 #ButtonValider
+
 {
 
+  border-radius:100px;
+  background-color: #be000e;
+  border-color: #be000e;
+  padding-left: 15px;
+  padding-right:15px;
+}
+
+#ButtonTelecharger
+{
+  color:#fff;
   border-radius:100px;
   background-color: #be000e;
   border-color: #be000e;

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
 import { FormGroup, Input, Form, Label, Col, FormText, Button } from "reactstrap";
-import '../test.css'
+import '../css/main.css'
 
+// constant for get chart data
 const datasProps = {
   labels: [],
   datasets: [
@@ -48,12 +49,56 @@ class LineChart extends Component {
         moisDebut: '',
         moisFin: '',
         responseToPost: '',
-        dataToSend: []
+        dataToSend: [],
+        pathChartFile:''
       }
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDownload=this.handleDownload.bind(this);
     // this.handleOnChange = this.handleOnChange.bind(this);
 
   };
+
+
+  handleDownload =  async e => 
+  {
+    e.preventDefault();
+
+    const generateXSLCharline = await fetch('/service/generateXSLCharline',
+    {
+      method: 'POST',
+      headers:
+      {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(
+        {
+          tauxActivite: this.state.responseToPost.taux,
+          mois:this.state.responseToPost.mois
+        }),
+    });
+  const body = await generateXSLCharline.text();
+  this.setState({ pathChartFile: JSON.parse(body) });
+
+
+
+
+        // fake server request, getting the file url as response
+        setTimeout(() => {
+          const response = {
+            file: 'http://127.0.0.1:8887/ooxml-line-chart.xlsx',
+          };
+          // server sent the url to the file!
+          // now, let's download:
+          window.location.href = response.file;
+          // you could also do:
+          // window.open(response.file);
+        }, 100);
+      
+    
+
+
+  }
+
   handleSubmit = async e => {
     e.preventDefault();
     const response = await fetch('/service/tauxDactivite',
@@ -100,15 +145,15 @@ class LineChart extends Component {
                 value={this.state.agence}
                 onChange={e => {
                   this.setState({ agence: e.target.value })
-                  if (e.target.value !== "00") {
+                  if (e.target.value !== "0") {
                     this.setState({ agIsSet: true })
                   }
                   else { this.setState({ agIsSet: false }) }
 
-                }
+                  }
                 }
               >
-                <option value="00" defaultValue >Choisir une agence :</option>
+                <option value="0" defaultValue >Choisir une agence :</option>
                 <option value="siege plateau">Siège plateau</option>
                 <option value="Nanan Yamousso">Nanan Yamousso</option>
               </Input>
@@ -123,33 +168,35 @@ class LineChart extends Component {
                 value={this.state.moisDebut}
                 onChange={e => {
                   this.setState({ moisDebut: e.target.value })
-                  if (e.target.value !== "00") {
+                  if (e.target.value !== "0") {
                     this.setState({ mdIsSet: true })
-                  }
-                  else { this.setState({ mdIsSet: false }) }
+                   }
+                   else { this.setState({ mdIsSet: false }) }
                   let md = e.target.value;
                   let mf = this.state.moisFin;
                   console.log("md on change");
                   md=md.split('/');
                   mf=mf.split('/');
-                   console.log("md= "+md[0]);
-                   console.log("mf= "+mf[0]);
+                  console.log("md= "+md[0]);
+                  console.log("mf= "+mf[0]);
                   if (parseInt(md[0], 10) > parseInt(mf[0], 10)) {
                     this.setState({ mdIsSet: false })
                     console.log("md> mf md on change")
                   }
-                  if (parseInt(md[0], 10) < parseInt(mf[0], 10)) {
-                    this.setState({ mdIsSet: true })
-                    console.log(this.state.moisDebut)
-                    console.log("md= "+md[0]);
-                    console.log("ok4");
+                  if ( (parseInt(md[0], 10) < parseInt(mf[0], 10))  &&  (md[0] > 0) ) {
+                      this.setState({ mdIsSet: true })
+                      console.log(this.state.moisDebut)
+                      console.log("md= "+md[0]);
+                      console.log("ok4");
+                  
+                  
                   }
+                  else { this.setState({ mdIsSet: false }) }
                   console.log("md on change end");
-
                 }
                 }
               >
-                <option value="00" defaultValue >Choisir le mois de debut :</option>
+                <option value="0" defaultValue >Choisir le mois de debut :</option>
                 <option value="01/1900">Janvier</option>
                 <option value="02/1900">Février</option>
                 <option value="03/1900">Mars</option>
@@ -175,7 +222,7 @@ class LineChart extends Component {
                 onChange={e => {
                   this.setState({ moisFin: e.target.value })
 
-                  if (e.target.value !== "00") {
+                  if (e.target.value !== "0") {
                     this.setState({ mfIsSet: true })
                   }
                   else { this.setState({ mfIsSet: false }) }
@@ -190,19 +237,20 @@ class LineChart extends Component {
                     console.log("md= "+md[0]);
                     console.log("md > mf mf on change")
                   }
-                  if (parseInt(md[0], 10) < parseInt(mf[0], 10)) {
+                  if ((parseInt(md[0], 10) < parseInt(mf[0], 10) ) && (md[0] > 0))  {
                     this.setState({ mdIsSet: true })
                     console.log(this.state.moisDebut)
                     console.log("md= "+md[0]);
                     console.log("md<mf mf on change")
                   }
+
                   console.log("mf on change end");
                 }
 
                 }
                 
               >
-                <option value="00" defaultValue >Choisir le mois de fin</option>
+                <option value="0" defaultValue >Choisir le mois de fin</option>
                 <option value="01/1900">Janvier</option>
                 <option value="02/1900">Février</option>
                 <option value="03/1900">Mars</option>
@@ -219,11 +267,45 @@ class LineChart extends Component {
               <FormText hidden={this.state.mfIsSet}>Selectionner un mois valide</FormText>                
             </Col>
           </FormGroup>
-          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet) || (this.state.moisDebut>this.state.moisFin)}
+          <FormGroup row>
+            <Label for="exampleEmail2" sm={12}>Année :</Label>
+            <Col md={{ size: 4, order: 1, offset: -1 }}>
+              <Input valid={this.state.anIsSet} invalid={!this.state.anIsSet}
+                type="select"
+                name="select"
+                id="selectMoisFin"
+                value={this.state.annee}
+                onChange={e => {
+                  this.setState({ annee: e.target.value })
+
+                  if (e.target.value !== "00") {
+                    this.setState({ anIsSet: true })
+                  }
+                  else { this.setState({ anIsSet: false }) }
+                  
+                }
+
+                }
+                
+              >
+                <option value="00" defaultValue >choisir une année</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+              </Input>
+              <FormText hidden={this.state.anIsSet}>Selectionner une année valide</FormText>                
+            </Col>
+          </FormGroup>
+          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet)  || (this.state.moisDebut>this.state.moisFin)}
             >Valider</Button>
+            
         </Form>
         <h2 >Courbe du Taux d'activité</h2>
         <Line ref="chart" data={this.state.dataToSend} />
+        <Button  onClick={this.handleDownload} id="ButtonTelecharger" hidden={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet)  || (this.state.moisDebut>this.state.moisFin)}
+            >Telecharger le diagramme</Button>
       </div>
     );
   }

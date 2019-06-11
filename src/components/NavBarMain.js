@@ -12,7 +12,7 @@ import {
   // DropdownMenu,
   // DropdownItem
 } from "reactstrap";
-import "./test.css"
+import "./css/main.css"
 
 class MainNavBar extends React.Component {
   constructor(props) {
