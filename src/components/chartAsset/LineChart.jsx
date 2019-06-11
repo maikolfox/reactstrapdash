@@ -108,7 +108,7 @@ class LineChart extends Component {
                 }
                 }
               >
-                <option value="00" defaultValue >Choisir une agence</option>
+                <option value="00" defaultValue >Choisir une agence :</option>
                 <option value="siege plateau">Siège plateau</option>
                 <option value="Nanan Yamousso">Nanan Yamousso</option>
               </Input>
@@ -127,9 +127,29 @@ class LineChart extends Component {
                     this.setState({ mdIsSet: true })
                   }
                   else { this.setState({ mdIsSet: false }) }
-                }}
+                  let md = e.target.value;
+                  let mf = this.state.moisFin;
+                  console.log("md on change");
+                  md=md.split('/');
+                  mf=mf.split('/');
+                   console.log("md= "+md[0]);
+                   console.log("mf= "+mf[0]);
+                  if (parseInt(md[0], 10) > parseInt(mf[0], 10)) {
+                    this.setState({ mdIsSet: false })
+                    console.log("md> mf md on change")
+                  }
+                  if (parseInt(md[0], 10) < parseInt(mf[0], 10)) {
+                    this.setState({ mdIsSet: true })
+                    console.log(this.state.moisDebut)
+                    console.log("md= "+md[0]);
+                    console.log("ok4");
+                  }
+                  console.log("md on change end");
+
+                }
+                }
               >
-                <option value="00" defaultValue >Choisir le mois de debut</option>
+                <option value="00" defaultValue >Choisir le mois de debut :</option>
                 <option value="01/1900">Janvier</option>
                 <option value="02/1900">Février</option>
                 <option value="03/1900">Mars</option>
@@ -159,9 +179,28 @@ class LineChart extends Component {
                     this.setState({ mfIsSet: true })
                   }
                   else { this.setState({ mfIsSet: false }) }
+                  let md = this.state.moisDebut;
+                  let mf = e.target.value;
+                  console.log("mf on change");
+                  md=md.split('/');
+                  mf=mf.split('/');
+                  if (parseInt(md[0], 10) > parseInt(mf[0], 10)) {
+                    this.setState({ mdIsSet: false })
+                    console.log("md= "+md[0]);
+                    console.log("md= "+md[0]);
+                    console.log("md > mf mf on change")
+                  }
+                  if (parseInt(md[0], 10) < parseInt(mf[0], 10)) {
+                    this.setState({ mdIsSet: true })
+                    console.log(this.state.moisDebut)
+                    console.log("md= "+md[0]);
+                    console.log("md<mf mf on change")
+                  }
+                  console.log("mf on change end");
+                }
 
                 }
-                }
+                
               >
                 <option value="00" defaultValue >Choisir le mois de fin</option>
                 <option value="01/1900">Janvier</option>
@@ -180,7 +219,7 @@ class LineChart extends Component {
               <FormText hidden={this.state.mfIsSet}>Selectionner un mois valide</FormText>                
             </Col>
           </FormGroup>
-          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet)}
+          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet) || (this.state.moisDebut>this.state.moisFin)}
             >Valider</Button>
         </Form>
         <h2 >Courbe du Taux d'activité</h2>

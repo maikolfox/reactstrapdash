@@ -24,8 +24,8 @@ class MainNavBar extends Component {
                             <li><a href="users.html">Users</a></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><a href="#">Welcome fox</a></li>
-                            <li><a href="#">Logout</a></li>
+                            <li><a href="/">Welcome fox</a></li>
+                            <li><a href="/">Logout</a></li>
                         </ul>
                     </div>
                 </div>

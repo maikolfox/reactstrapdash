@@ -4,17 +4,16 @@
     color: black;
     font-weight: bold;
     font-size:1.5 em;
-      }a:hover {
-    color: hotpink;
+      }
+      a:hover {
+    color:  #eb656e;
   }
 
   a:link {
     text-decoration: none;
   }
   
-  a:hover {
-    background-color: lightgreen;
-  }
+  
 
   .headerStyle{
 

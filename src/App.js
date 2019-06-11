@@ -6,10 +6,10 @@
  //import Modal from "./components/Modal";
  import "./components/test.css";
  //import  MainNavHeader from"./components/MainNavHeader";
- import {  Row } from "reactstrap";
+// import {  Row } from "reactstrap";
 
  
-  import MainNavBar from './components/MainNavbar.jsx';
+ // import MainNavBar from './components/MainNavbar.jsx';
  
  
 
@@ -21,10 +21,7 @@
  
      render() {
          return (
-           
                  <NavBarMain/>
-
-         
          );
      }
  }
