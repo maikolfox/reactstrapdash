@@ -39,7 +39,7 @@ class LineChart extends Component {
   constructor(props) {
     super(props);
     this.state =
-      {
+    {
         mdIsSet: '',
         mfIsSet: '',
         agIsSet: '',
@@ -51,7 +51,7 @@ class LineChart extends Component {
         responseToPost: '',
         dataToSend: [],
         pathChartFile:''
-      }
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDownload=this.handleDownload.bind(this);
     // this.handleOnChange = this.handleOnChange.bind(this);
@@ -98,7 +98,6 @@ class LineChart extends Component {
 
 
   }
-
   handleSubmit = async e => {
     e.preventDefault();
     const response = await fetch('/service/tauxDactivite',
@@ -278,17 +277,16 @@ class LineChart extends Component {
                 onChange={e => {
                   this.setState({ annee: e.target.value })
 
-                  if (e.target.value !== "00") {
+                  if (e.target.value !== "0") {
                     this.setState({ anIsSet: true })
                   }
                   else { this.setState({ anIsSet: false }) }
                   
                 }
 
-                }
-                
+                }  
               >
-                <option value="00" defaultValue >choisir une année</option>
+                <option value="0" defaultValue >choisir une année</option>
                 <option value="2015">2015</option>
                 <option value="2016">2016</option>
                 <option value="2017">2017</option>
@@ -298,8 +296,7 @@ class LineChart extends Component {
               <FormText hidden={this.state.anIsSet}>Selectionner une année valide</FormText>                
             </Col>
           </FormGroup>
-          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet)  || (this.state.moisDebut>this.state.moisFin)}
-            >Valider</Button>
+          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet)  || (this.state.moisDebut>this.state.moisFin)}>Valider</Button>
             
         </Form>
         <h2 >Courbe du Taux d'activité</h2>
