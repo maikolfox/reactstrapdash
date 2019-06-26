@@ -2,6 +2,14 @@
 margin-left: 111167%;
 
 }
+
+.activeNav{color:#eb656e;}
+
+body{
+  overflow-x:hidden;
+
+}
+
 .sideHeader  {
 
     background-color: #be000e;

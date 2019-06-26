@@ -300,7 +300,8 @@ class LineChart extends Component {
             
         </Form>
         <h2 >Courbe du Taux d'activité</h2>
-        <Line ref="chart" data={this.state.dataToSend} />
+        <Line ref="chart" width={8}
+          height={3} data={this.state.dataToSend} />
         <Button  onClick={this.handleDownload} id="ButtonTelecharger" hidden={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet)  || (this.state.moisDebut>this.state.moisFin)}
             >Telecharger le diagramme</Button>
       </div>

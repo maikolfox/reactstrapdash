@@ -9,7 +9,6 @@ import TableauTache from '../modalParametre/tableau/TableauTache';
 
 
 
-
 export default class ParametreTab extends React.Component {
     constructor(props) {
         super(props);
