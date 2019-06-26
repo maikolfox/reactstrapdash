@@ -39,7 +39,7 @@ class LineChart extends Component {
   constructor(props) {
     super(props);
     this.state =
-    {
+      {
         mdIsSet: '',
         mfIsSet: '',
         agIsSet: '',
@@ -50,51 +50,50 @@ class LineChart extends Component {
         moisFin: '',
         responseToPost: '',
         dataToSend: [],
-        pathChartFile:''
-    }
+        pathChartFile: ''
+      }
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDownload=this.handleDownload.bind(this);
+    this.handleDownload = this.handleDownload.bind(this);
     // this.handleOnChange = this.handleOnChange.bind(this);
 
   };
 
 
-  handleDownload =  async e => 
-  {
+  handleDownload = async e => {
     e.preventDefault();
 
     const generateXSLCharline = await fetch('/service/generateXSLCharline',
-    {
-      method: 'POST',
-      headers:
       {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(
+        method: 'POST',
+        headers:
         {
-          tauxActivite: this.state.responseToPost.taux,
-          mois:this.state.responseToPost.mois
-        }),
-    });
-  const body = await generateXSLCharline.text();
-  this.setState({ pathChartFile: JSON.parse(body) });
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          {
+            tauxActivite: this.state.responseToPost.taux,
+            mois: this.state.responseToPost.mois
+          }),
+      });
+    const body = await generateXSLCharline.text();
+    this.setState({ pathChartFile: JSON.parse(body) });
 
 
 
 
-        // fake server request, getting the file url as response
-        setTimeout(() => {
-          const response = {
-            file: 'http://127.0.0.1:8887/ooxml-line-chart.xlsx',
-          };
-          // server sent the url to the file!
-          // now, let's download:
-          window.location.href = response.file;
-          // you could also do:
-          // window.open(response.file);
-        }, 100);
-      
-    
+    // fake server request, getting the file url as response
+    setTimeout(() => {
+      const response = {
+        file: 'http://127.0.0.1:8887/ooxml-line-chart.xlsx',
+      };
+      // server sent the url to the file!
+      // now, let's download:
+      window.location.href = response.file;
+      // you could also do:
+      // window.open(response.file);
+    }, 100);
+
+
 
 
   }
@@ -149,14 +148,20 @@ class LineChart extends Component {
                   }
                   else { this.setState({ agIsSet: false }) }
 
-                  }
+                }
                 }
               >
-                <option value="0" defaultValue >Choisir une agence :</option>
-                <option value="siege plateau">Siège plateau</option>
-                <option value="Nanan Yamousso">Nanan Yamousso</option>
+                <option value="0" defaultValue >Choisir une agence ou un service :</option>
+                <optgroup label="Agence">
+                  <option value="siege plateau">Siège plateau</option>
+                  <option value="Nanan Yamousso">Nanan Yamousso</option>
+                </optgroup>
+                <optgroup label="Service">
+                  <option value="service1">service1</option>
+                  <option value="service2">service2</option>
+                </optgroup>
               </Input>
-              <FormText hidden={this.state.agIsSet}>Selectionner une agence</FormText>                
+              <FormText hidden={this.state.agIsSet}>Selectionner une agence</FormText>
             </Col>
             <Label for="exampleEmail3" md={4}>Mois de debut</Label>
             <Col md={{ size: 4, order: 1, offset: - 1 }}>
@@ -169,26 +174,26 @@ class LineChart extends Component {
                   this.setState({ moisDebut: e.target.value })
                   if (e.target.value !== "0") {
                     this.setState({ mdIsSet: true })
-                   }
-                   else { this.setState({ mdIsSet: false }) }
+                  }
+                  else { this.setState({ mdIsSet: false }) }
                   let md = e.target.value;
                   let mf = this.state.moisFin;
                   console.log("md on change");
-                  md=md.split('/');
-                  mf=mf.split('/');
-                  console.log("md= "+md[0]);
-                  console.log("mf= "+mf[0]);
+                  md = md.split('/');
+                  mf = mf.split('/');
+                  console.log("md= " + md[0]);
+                  console.log("mf= " + mf[0]);
                   if (parseInt(md[0], 10) > parseInt(mf[0], 10)) {
                     this.setState({ mdIsSet: false })
                     console.log("md> mf md on change")
                   }
-                  if ( (parseInt(md[0], 10) < parseInt(mf[0], 10))  &&  (md[0] > 0) ) {
-                      this.setState({ mdIsSet: true })
-                      console.log(this.state.moisDebut)
-                      console.log("md= "+md[0]);
-                      console.log("ok4");
-                  
-                  
+                  if ((parseInt(md[0], 10) < parseInt(mf[0], 10)) && (md[0] > 0)) {
+                    this.setState({ mdIsSet: true })
+                    console.log(this.state.moisDebut)
+                    console.log("md= " + md[0]);
+                    console.log("ok4");
+
+
                   }
                   else { this.setState({ mdIsSet: false }) }
                   console.log("md on change end");
@@ -209,7 +214,7 @@ class LineChart extends Component {
                 <option value="11/1900">Novembre</option>
                 <option value="12/1900">Décembre</option>
               </Input>
-              <FormText hidden={this.state.mdIsSet}>Selectionner un mois valide</FormText>                
+              <FormText hidden={this.state.mdIsSet}>Selectionner un mois valide</FormText>
             </Col>
             <Label for="exampleEmail2" sm={4}>Mois de fin</Label>
             <Col md={{ size: 4, order: 2, offset: -1 }}>
@@ -228,18 +233,18 @@ class LineChart extends Component {
                   let md = this.state.moisDebut;
                   let mf = e.target.value;
                   console.log("mf on change");
-                  md=md.split('/');
-                  mf=mf.split('/');
+                  md = md.split('/');
+                  mf = mf.split('/');
                   if (parseInt(md[0], 10) > parseInt(mf[0], 10)) {
                     this.setState({ mdIsSet: false })
-                    console.log("md= "+md[0]);
-                    console.log("md= "+md[0]);
+                    console.log("md= " + md[0]);
+                    console.log("md= " + md[0]);
                     console.log("md > mf mf on change")
                   }
-                  if ((parseInt(md[0], 10) < parseInt(mf[0], 10) ) && (md[0] > 0))  {
+                  if ((parseInt(md[0], 10) < parseInt(mf[0], 10)) && (md[0] > 0)) {
                     this.setState({ mdIsSet: true })
                     console.log(this.state.moisDebut)
-                    console.log("md= "+md[0]);
+                    console.log("md= " + md[0]);
                     console.log("md<mf mf on change")
                   }
 
@@ -247,7 +252,7 @@ class LineChart extends Component {
                 }
 
                 }
-                
+
               >
                 <option value="0" defaultValue >Choisir le mois de fin</option>
                 <option value="01/1900">Janvier</option>
@@ -263,7 +268,7 @@ class LineChart extends Component {
                 <option value="11/1900">Novembre</option>
                 <option value="12/1900">Décembre</option>
               </Input>
-              <FormText hidden={this.state.mfIsSet}>Selectionner un mois valide</FormText>                
+              <FormText hidden={this.state.mfIsSet}>Selectionner un mois valide</FormText>
             </Col>
           </FormGroup>
           <FormGroup row>
@@ -281,10 +286,10 @@ class LineChart extends Component {
                     this.setState({ anIsSet: true })
                   }
                   else { this.setState({ anIsSet: false }) }
-                  
+
                 }
 
-                }  
+                }
               >
                 <option value="0" defaultValue >choisir une année</option>
                 <option value="2015">2015</option>
@@ -293,17 +298,17 @@ class LineChart extends Component {
                 <option value="2018">2018</option>
                 <option value="2019">2019</option>
               </Input>
-              <FormText hidden={this.state.anIsSet}>Selectionner une année valide</FormText>                
+              <FormText hidden={this.state.anIsSet}>Selectionner une année valide</FormText>
             </Col>
           </FormGroup>
-          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet)  || (this.state.moisDebut>this.state.moisFin)}>Valider</Button>
-            
+          <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet) || (this.state.moisDebut > this.state.moisFin)}>Valider</Button>
+
         </Form>
         <h2 >Courbe du Taux d'activité</h2>
         <Line ref="chart" width={8}
           height={3} data={this.state.dataToSend} />
-        <Button  onClick={this.handleDownload} id="ButtonTelecharger" hidden={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet)  || (this.state.moisDebut>this.state.moisFin)}
-            >Telecharger le diagramme</Button>
+        <Button onClick={this.handleDownload} id="ButtonTelecharger" hidden={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet) || (this.state.moisDebut > this.state.moisFin)}
+        >Telecharger le diagramme</Button>
       </div>
     );
   }

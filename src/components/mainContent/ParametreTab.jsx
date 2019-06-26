@@ -37,7 +37,7 @@ export default class ParametreTab extends React.Component {
                                 className={classnames({ active: this.state.activeTab === '1' })}
                                 onClick={() => { this.toggle('1'); }}
                             >
-                                <a href='#'>Parametrage tâches</a>
+                                <a href='#'> Parametrage tâches</a>
                             </NavLink>
                         </NavItem>
                         <NavItem>

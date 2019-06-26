@@ -89,7 +89,7 @@ class EnrgMarcheModal extends React.Component {
 
                     }
                     }
-                  >
+                  > 
                     <option value="" defaultValue >Choisir une agence :</option>
                     <option value="Processus 1">Processus 1</option>
                     <option value="Processus 2">Processus 2</option>
