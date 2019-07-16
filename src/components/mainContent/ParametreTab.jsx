@@ -26,7 +26,6 @@ export default class ParametreTab extends React.Component {
             });
         }
     }
-
     render() {
         return (
             <React.Fragment>
@@ -37,7 +36,7 @@ export default class ParametreTab extends React.Component {
                                 className={classnames({ active: this.state.activeTab === '1' })}
                                 onClick={() => { this.toggle('1'); }}
                             >
-                                <a href='#'> Parametrage tâches</a>
+                                <a href='#'> Parametrage tâches<br/>&nbsp;</a>
                             </NavLink>
                         </NavItem>
                         <NavItem>
@@ -45,7 +44,7 @@ export default class ParametreTab extends React.Component {
                                 className={classnames({ active: this.state.activeTab === '2' })}
                                 onClick={() => { this.toggle('2'); }}
                             >
-                                <a href='#'>Parametrage marché</a>
+                                <a href='#'>Parametrage marché<br/>&nbsp;</a>
                             </NavLink>
                         </NavItem>
                         <NavItem>
@@ -53,7 +52,23 @@ export default class ParametreTab extends React.Component {
                                 className={classnames({ active: this.state.activeTab === '3' })}
                                 onClick={() => { this.toggle('3'); }}
                             >
-                                <a href='#'>Parametrage opération</a>
+                                <a href='#'>Parametrage opération<br/>&nbsp;</a>
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={classnames({ active: this.state.activeTab === '4' })}
+                                onClick={() => { this.toggle('4'); }}
+                            >
+                                <a href='#'>Parametrage procéssus <br/>&nbsp;</a>
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink
+                                className={classnames({ active: this.state.activeTab === '5' })}
+                                onClick={() => { this.toggle('5'); }}
+                            >
+                                <a href='#'>Parametrage volume <br/> opération manuelle</a>
                             </NavLink>
                         </NavItem>
                     </Nav>
@@ -88,12 +103,40 @@ export default class ParametreTab extends React.Component {
                             </TabPane>
                             <TabPane tabId="3">
                                 <Row>
-                                    <Col sm="6">
-                                        <Card body>
-                                            <CardTitle>Operation</CardTitle>
-                                            <CardText>autres  projets</CardText>
-                                            <Button>Go somewhere</Button>
-                                        </Card>
+                                <Col md="12" sm="6">
+                                        &nbsp;
+                                        <CardTitle>Enregistrer opération</CardTitle>
+                                        <CardText>Cliquer sur ce boutton pour enregistrer une nouvelle tâche</CardText>
+                                        <EnrgTachModal buttonLabel="Enregistrer une tâche"></EnrgTachModal>
+                                        &nbsp;
+                                        <CardTitle>Tâches enregistrées</CardTitle>
+                                        <TableauTache></TableauTache>
+                                    </Col>
+                                </Row>
+                            </TabPane>
+                            <TabPane tabId="4">
+                                <Row>
+                                <Col md="12" sm="6">
+                                        &nbsp;
+                                        <CardTitle>Enregistrer processus</CardTitle>
+                                        <CardText>Cliquer sur ce boutton pour enregistrer une nouvelle tâche</CardText>
+                                        <EnrgTachModal buttonLabel="Enregistrer une tâche"></EnrgTachModal>
+                                        &nbsp;
+                                        <CardTitle>Tâches enregistrées</CardTitle>
+                                        <TableauTache></TableauTache>
+                                    </Col>
+                                </Row>
+                            </TabPane>
+                            <TabPane tabId="5">
+                                <Row>
+                                <Col md="12" sm="6">
+                                        &nbsp;
+                                        <CardTitle>Renseignement des volumes d'operations manuelle</CardTitle>
+                                        <CardText>Cliquer sur ce boutton pour renseigner un volume</CardText>
+                                        <EnrgTachModal buttonLabel="Renseigner un volume"></EnrgTachModal>
+                                        &nbsp;
+                                        <CardTitle>Tâches enregistrées</CardTitle>
+                                        <TableauTache></TableauTache>
                                     </Col>
                                 </Row>
                             </TabPane>

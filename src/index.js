@@ -6,14 +6,16 @@ import {
   Route,
   BrowserRouter as Router,
   NavLink,
-  Switch,Redirect
+  Switch, Redirect
 } from 'react-router-dom';
 import {
   Row,
   Col,
   ListGroup,
   ListGroupItem,
-
+  CardHeader,
+  CardBody,
+  Card
 }
   from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -24,11 +26,58 @@ import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
 // import ChargePoidsTacheProcessus from './components/mainContent/ChargePoidsTacheProcessus';
 import ChargePoidsProcessus from './components/mainContent/ChargePoidsProcessus';
 import ParametreTab from './components/mainContent/ParametreTab';
-
+import DoughnutChart from './components/chartAsset/DoughnutChart';
 //import { createBrowserHistory } from "history";
 // import indexRoutes from "./route/index.jsx";
 function hello() {
-  return (<h1>Bienvenu sur votre application</h1>)
+  return (<React.Fragment>
+
+<Row>
+    
+      
+    <Col md={{ size: 12, order: 0, offset: 0 }}>
+      <h1>Bienvenu sur votre application </h1>
+    </Col>
+    &nbsp;
+    <Col md={{ size: 12, order: 0, offset: 0 }}>
+      <h3>Vu d'ensemble mois précedent</h3>
+    </Col>
+     
+     &nbsp;
+    {/* <Col md={{ size: 6, order: 0, offset: 0 }}>
+    <Card>
+    <CardHeader>Taux d'activité</CardHeader>
+    <CardBody>
+      <DoughnutChart />
+      </CardBody>
+    </Card> 
+    </Col> */}
+    
+  </Row>
+    <Row>
+      <Col md={{ size: 4, order: 0, offset: 0 }}>
+      <div className="overviewcard colorOBBG">INDICATEUR PERTINANT 1</div>
+          </Col>
+          <Col md={{ size: 4, order: 0, offset: 0 }}>
+      <div className="overviewcard colorBLUE "> INDICATEUR PERTINANT 2</div>
+          </Col>
+          <Col md={{ size: 4, order: 0, offset: 0 }}>
+      <div className="overviewcard colorGREEN"> INDICATEUR PERTINANT 3</div>
+          </Col>
+      {/* <Col md={{ size: 6, order: 0, offset: 0 }}>
+      <Card>
+      <CardHeader>Taux d'activité</CardHeader>
+      <CardBody>
+        <DoughnutChart />
+        </CardBody>
+      </Card> 
+      </Col> */}
+      
+    </Row>
+
+    
+
+  </React.Fragment>)
 
 }
 const Notfound = () => <h1>Page en construction</h1>
@@ -39,16 +88,16 @@ const routing = (
   <Router>
     <App />
     <Row>
-      <Col md={{ size: 2, order:0 , offset: 0 }}>
+      <Col md={{ size: 2, order: 0, offset: 0 }}>
         <ListGroup >
           <ListGroupItem className="menuHeader" >
-             MENU GENERAL
+            MENU GENERAL
           </ListGroupItem>
           <ListGroupItem >
             <NavLink exact activeClassName="activeNav" to="/Accueil">Accueil</NavLink>
           </ListGroupItem>
           <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/TauxDactivite" tag="button">Taux d'activité mensuel</NavLink>
+            <NavLink exact activeClassName="activeNav" to="/TauxDactivite" >Taux d'activité mensuel</NavLink>
           </ListGroupItem>
           <ListGroupItem action>
             <NavLink exact activeClassName="activeNav" to="/ChargePoidsEmplois">Charges et poids par emplois</NavLink>
@@ -69,7 +118,7 @@ const routing = (
           <Route path="/ParametreTab" component={ParametreTab} />
           <Route path="/TauxDactivite" component={TauxDactivite} />
           <Route path="/Accueil" component={hello} />
-          <Route exact path="/" render={() => (<Redirect to="/Accueil" />)}  />
+          <Route exact path="/" render={() => (<Redirect to="/Accueil" />)} />
           <Route path="/ChargePoidsProcessus" component={ChargePoidsProcessus} />
           <Route component={Notfound} />
         </Switch>
