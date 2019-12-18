@@ -3,7 +3,6 @@ import { Table } from 'reactstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
-import { library } from "@fortawesome/fontawesome-svg-core";
 
 export default class TableauMarche extends React.Component {
   render() {
@@ -14,15 +13,18 @@ export default class TableauMarche extends React.Component {
             <th>Code marche</th>
             <th>Libelle marche</th>
             <th>Code agence</th>
-            <th></th>
+            <th>Modifier/Supprimer</th>
+
+            <th><i class="fa fa-pencil" aria-hidden="true"></i></th>
+
           </tr>
         </thead>
         <tbody>
           <tr>
-            
             <th scope="row">1</th>
             <td>Table cell</td>
             <td>Table cell</td>
+            &nbsp; &nbsp; &nbsp; &nbsp;
             <button
               type="button"
               className="btn btn-sm btn-primary m-2 ml-auto"

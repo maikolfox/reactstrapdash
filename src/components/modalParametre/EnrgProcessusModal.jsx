@@ -15,7 +15,7 @@ import {
 
 } from "reactstrap";
 
-class EnrgMarcheModal extends React.Component {
+class EnrgProcessusModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -64,35 +64,11 @@ class EnrgMarcheModal extends React.Component {
           centered
           aria-labelledby="example-modal-sizes-title-lg"
         >
-          <ModalHeader toggle={this.toggle}>Formulaire d'enregistrement du marché</ModalHeader>
+          <ModalHeader toggle={this.toggle}>Formulaire d'enregistrement d'un processus</ModalHeader>
           <ModalBody>
             <Form onSubmit={this.handleSubmit}>
               <FormGroup >
-                <Label for="exampleEmail" md={4}>Selectionner l'agence :</Label>
-                <Col md={{ size: 12, order: 1, offset: -1 }}>
-                  <Input valid={this.state.procIsSet} invalid={!this.state.procIsSet}
-                    type="select"
-                    id="selectAgence"
-                    name="selectbasic"
-                    value={this.state.processus}
-                    onChange={e => {
-                      this.setState({ processus: e.target.value })
-                      if (e.target.value !== null) {
-                        this.setState({ procIsSet: true })
-                      }
-                      else { this.setState({ procIsSet: false }) }
-
-                    }
-                    }
-                  > 
-                    <option value="" defaultValue >Choisir une agence :</option>
-                    <option value="Processus 1">Processus 1</option>
-                    <option value="Processus 2">Processus 2</option>
-                  </Input>
-                  <FormText hidden={this.state.procIsSet}>Selectionner une agence</FormText>
-                </Col>
-                <Row>&nbsp;</Row>
-                <Label for="exampleEmail" md={12}>Description de la FNC :</Label>
+                <Label for="exampleEmail" md={12}>Libellé tâche</Label>
                 <Col md={{ size: 12, order: 1, offset: -1 }}>
                   <Input valid={this.state.descIsSet} invalid={!this.state.descIsSet}
                     type="text"
@@ -109,7 +85,74 @@ class EnrgMarcheModal extends React.Component {
                     }
                   >
                   </Input>
-                  <FormText hidden={this.state.descIsSet}>Decrire la non conformité</FormText>
+                  <FormText hidden={this.state.descIsSet}>Renseigné le libellé tâche</FormText>
+                </Col>
+                <Row>&nbsp;</Row>
+                <Label for="exampleEmail" md={12}>Temps unitaire</Label>
+                <Col md={{ size: 12, order: 1, offset: -1 }}>
+                  <Input valid={this.state.descIsSet} invalid={!this.state.descIsSet}
+                    type="text"
+                    id="selectAgence"
+                    name="selectbasic"
+                    value={this.state.descritpionProc}
+                    onChange={e => {
+                      this.setState({ descritpionProc: e.target.value })
+                      if (e.target.value !== null) {
+                        this.setState({ descIsSet: true })
+                      }
+                      else { this.setState({ descIsSet: false }) }
+                    }
+                    }
+                  >
+                  </Input>
+                  <FormText hidden={this.state.descIsSet}>Renseigné le temps unitaire</FormText>
+                </Col>
+                <Row>&nbsp;</Row>
+                <Label for="exampleEmail" md={12}>Nature</Label>
+                <Col md={{ size: 12, order: 1, offset: -1 }}>
+                  <Input valid={this.state.procIsSet} invalid={!this.state.procIsSet}
+                    type="select"
+                    id="selectAgence"
+                    name="selectbasic"
+                    value={this.state.processus}
+                    onChange={e => {
+                      this.setState({ processus: e.target.value })
+                      if (e.target.value !== null) {
+                        this.setState({ procIsSet: true })
+                      }
+                      else { this.setState({ procIsSet: false }) }
+                    }
+                    }
+                  >
+                    <option value="" defaultValue >Selectionner la nature :</option>
+                    <option value="Processus 1">Nature 1</option>
+                    <option value="Processus 2">Nature 2</option>
+                  </Input>
+                  <FormText hidden={this.state.procIsSet}>Selectionner une nature</FormText>
+                </Col>
+                <Row>&nbsp;</Row>
+                <Label for="exampleEmail" md={4}>Selectionner le metier :</Label>
+                <Col md={{ size: 12, order: 1, offset: -1 }}>
+                  <Input valid={this.state.procIsSet} invalid={!this.state.procIsSet}
+                    type="select"
+                    id="selectAgence"
+                    name="selectbasic"
+                    value={this.state.processus}
+                    onChange={e => {
+                      this.setState({ processus: e.target.value })
+                      if (e.target.value !== null) {
+                        this.setState({ procIsSet: true })
+                      }
+                      else { this.setState({ procIsSet: false }) }
+
+                    }
+                    }
+                  >
+                    <option value="" defaultValue >Choisir un Metier :</option>
+                    <option value="Processus 1">Metier 1</option>
+                    <option value="Processus 2">Metier 2</option>
+                  </Input>
+                  <FormText hidden={this.state.procIsSet}>Selectionner un metier</FormText>
                 </Col>
               </FormGroup>
             </Form>
@@ -139,5 +182,4 @@ class EnrgMarcheModal extends React.Component {
     );
   }
 }
-
-export default EnrgMarcheModal;
+export default EnrgProcessusModal;

@@ -13,9 +13,9 @@ import {
   Col,
   ListGroup,
   ListGroupItem,
-  CardHeader,
-  CardBody,
-  Card
+  // CardHeader,
+  // CardBody,
+  // Card
 }
   from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -26,7 +26,7 @@ import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
 // import ChargePoidsTacheProcessus from './components/mainContent/ChargePoidsTacheProcessus';
 import ChargePoidsProcessus from './components/mainContent/ChargePoidsProcessus';
 import ParametreTab from './components/mainContent/ParametreTab';
-import DoughnutChart from './components/chartAsset/DoughnutChart';
+//import DoughnutChart from './components/chartAsset/DoughnutChart';
 //import { createBrowserHistory } from "history";
 // import indexRoutes from "./route/index.jsx";
 function hello() {
@@ -82,8 +82,6 @@ function hello() {
 }
 const Notfound = () => <h1>Page en construction</h1>
 
-
-
 const routing = (
   <Router>
     <App />
@@ -103,10 +101,16 @@ const routing = (
             <NavLink exact activeClassName="activeNav" to="/ChargePoidsEmplois">Charges et poids par emplois</NavLink>
           </ListGroupItem>
           <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/ChargePoidsProcessus">Charge et poids par tache et par processus</NavLink>
+            <NavLink exact activeClassName="activeNav" to="/ChargePoidsProcessus">Charge et poids par processus</NavLink>
+          </ListGroupItem>
+          <ListGroupItem action>
+            <NavLink exact activeClassName="activeNav" to="/ChargePoidsTacheProcessus">Charge et poids par tache et par processus</NavLink>
           </ListGroupItem>
           <ListGroupItem action>
             <NavLink exact activeClassName="activeNav" to="/ChargerPoidsMetier">Charge et poids par tache et par metier</NavLink>
+          </ListGroupItem>
+          <ListGroupItem action>
+            <NavLink exact activeClassName="activeNav" to="/les20tachesLourdes">Les 20 tâches les plus lourdes</NavLink>
           </ListGroupItem>
           <ListGroupItem action>
             <NavLink exact activeClassName="activeNav" to="/ParametreTab">Parametrage système</NavLink>
@@ -120,6 +124,8 @@ const routing = (
           <Route path="/Accueil" component={hello} />
           <Route exact path="/" render={() => (<Redirect to="/Accueil" />)} />
           <Route path="/ChargePoidsProcessus" component={ChargePoidsProcessus} />
+          <Route path="/ChargePoidsTacheProcessus" component={Notfound}/>
+          <Route path="/les20tachesLourdes" component={Notfound} />
           <Route component={Notfound} />
         </Switch>
       </Col>

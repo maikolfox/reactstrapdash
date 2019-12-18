@@ -33,9 +33,9 @@ class MainNavBar extends React.Component {
      
         <Navbar className='headerStyle'  light expand="md">
           <NavbarBrand href="/">
-            <img src="./image/logoBridgeBank.png" alt="BBG" />
+            <img width="60%" height="60%"  src="./image/logoBridgeBank.png" alt="BBG" />
           </NavbarBrand>
-              <h1 id="navBarText"><span>Dashboard EFFOP</span><small> outil de mesure de l'efficacite operationnelle</small></h1>
+              <h1 id="navBarText"></h1>
         </Navbar>
 
 

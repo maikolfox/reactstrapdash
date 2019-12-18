@@ -3,14 +3,14 @@ import { Table } from 'reactstrap';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 
-export default class TableTache extends React.Component {
+export default class TableOperation extends React.Component {
   render() {
     return (
       <Table responsive borderless hover>
         <thead>
           <tr>
-            <th>Code tâche</th>
-            <th>Libelle tâche</th>
+            <th>Code Opération</th>
+            <th>Libelle opération</th>
             <th>Temps unitaire</th>
             <th>Nature</th>
             <th>Metier</th>

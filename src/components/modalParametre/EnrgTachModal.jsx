@@ -20,12 +20,18 @@ class EnrgTachModal extends React.Component {
     super(props);
     this.state = {
       modal: false,
-      processus: '',
-      descritpionProc: '',
-      procIsSet: '',
-      descIsSet: '',
-      procIsSet: '',
+      libelleTach:'',
+      libelleTachIsSet:false,
+      codeTach:'',
+      codeTachIsSet:false,
+      metier:'',
+      metierIsSet:false,
+      nature:'',
+      natureIsSet:false,
+      tempsUn:'',
+      tempsUnIsSet:false,
       nestedModal: false,
+      dataJson:''
     };
 
     this.toggle = this.toggle.bind(this);
@@ -33,14 +39,38 @@ class EnrgTachModal extends React.Component {
     this.toggleNested = this.toggleNested.bind(this);
   }
 
-  handleSubmit() {
-    console.log(this.state.descritpionProc);
-    this.setState({ processus: null });
-    this.setState({ descritpionProc: "" });
-    this.setState({ descIsSet: false });
-    this.setState({ procIsSet: false });
-    this.toggleNested();
-
+  handleSubmit = async e=>{
+    console.log(this.state.codeTach);
+      const response = await fetch('/api/effop/createTache',
+        {
+          method: 'POST',
+          headers:
+          {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            {
+              "codeTache":this.state.codeTach,
+              "libelleTach":this.state.libelleTach,
+              "metier":this.state.metier,
+              "natureTache" :this.state.nature,
+              "tempUnit":this.state.tempsUn
+            }),
+        });
+      const body = await response.text();
+    this.setState({ responseToPost: JSON.parse(body) });  
+    this.setState({libelleTach:""});
+    this.setState({ codeTach: "" });
+    this.setState({ tempsUn: "" });
+    this.setState({ metier:""});
+    this.setState({ tempsUn:""});
+    this.setState({ tempsUnIsSet: false });
+    this.setState({ natureIsSet: false });
+    this.setState({ tempsUnIsSet: false });
+    this.setState({ libelleTachIsSet:false });
+    this.setState({ natureIsSet: false });
+    this.setState({ metierIsSet: false });
+    this.toggle();
   }
 
   toggleNested() {
@@ -48,13 +78,14 @@ class EnrgTachModal extends React.Component {
       nestedModal: !this.state.nestedModal
     });
   }
-
   toggle() {
+    
     this.setState(prevState => ({
       modal: !prevState.modal
     }));
   }
 
+  
   render() {
     return (
       <div>
@@ -73,98 +104,121 @@ class EnrgTachModal extends React.Component {
           <ModalBody>
             <Form onSubmit={this.handleSubmit}>
               <FormGroup >
-              <Label for="exampleEmail" md={12}>Libellé tâche</Label>
+              <Label for="exampleEmail" md={12}>Code tâche</Label>
                 <Col md={{ size: 12, order: 1, offset: -1 }}>
-                  <Input valid={this.state.descIsSet} invalid={!this.state.descIsSet}
+                  <Input valid={this.state.codeTachIsSet} invalid={!this.state.codeTachIsSet}
                     type="text"
                     id="selectAgence"
                     name="selectbasic"
-                    value={this.state.descritpionProc}
+                    value={this.state.codeTach}
                     onChange={e => {
-                      this.setState({ descritpionProc: e.target.value })
-                      if (e.target.value !== null) {
-                        this.setState({ descIsSet: true })
+                      this.setState({ codeTach: e.target.value })
+                      if (e.target.value !== null && e.target.value !== "") {
+                        this.setState({ codeTachIsSet: true })
                       }
-                      else { this.setState({ descIsSet: false }) }
+                      else { this.setState({ codeTachIsSet: false }) }
                     }
                     }
                   >
                   </Input>
-                  <FormText hidden={this.state.descIsSet}>Renseigné le libellé tâche</FormText>
+                  <FormText hidden={this.state.codeTachIsSet}>Renseigner le code de la tâche</FormText>
+                </Col>
+                <Row>&nbsp;</Row>
+              <Label for="exampleEmail" md={12}>Libellé tâche</Label>
+                <Col md={{ size: 12, order: 1, offset: -1 }}>
+                  <Input valid={this.state.libelleTachIsSet} invalid={!this.state.libelleTachIsSet}
+                    type="text"
+                    id="selectAgence"
+                    name="selectbasic"
+                    value={this.state.libelleTach}
+                    onChange={e => {
+                      this.setState({ libelleTach: e.target.value })
+                      if (e.target.value !== null && e.target.value !== "") {
+                        this.setState({ libelleTachIsSet: true })
+                      }
+                      else { this.setState({ libelleTachIsSet: false }) }
+                    }
+                    }
+                  >
+                  </Input>
+                  <FormText hidden={this.state.libelleTachIsSet}>Renseigner le libellé tâche</FormText>
                 </Col>
                 <Row>&nbsp;</Row>
                 <Label for="exampleEmail" md={12}>Temps unitaire</Label>
                 <Col md={{ size: 12, order: 1, offset: -1 }}>
-                  <Input valid={this.state.descIsSet} invalid={!this.state.descIsSet}
-                    type="text"
+                  <Input valid={this.state.tempsUnIsSet} invalid={!this.state.tempsUnIsSet}
+                    type="time"
                     id="selectAgence"
                     name="selectbasic"
-                    value={this.state.descritpionProc}
+                    step="1"
+                    required
+                    value={this.state.tempsUn}
                     onChange={e => {
-                      this.setState({ descritpionProc: e.target.value })
-                      if (e.target.value !== null) {
-                        this.setState({ descIsSet: true })
+                      this.setState({ tempsUn: e.target.value })
+                      if (e.target.value !== null && e.target.value !== "") {
+                        this.setState({ tempsUnIsSet: true })
                       }
-                      else { this.setState({ descIsSet: false }) }
+                      else { this.setState({ tempsUnIsSet: false }) }
                     }
                     }
                   >
                   </Input>
-                  <FormText hidden={this.state.descIsSet}>Renseigné le temps unitaire</FormText>
+                  <FormText hidden={this.state.tempsUnIsSet_}>Renseigner le temps unitaire</FormText>
                 </Col>
                 <Row>&nbsp;</Row>
                 <Label for="exampleEmail" md={12}>Nature</Label>
                 <Col md={{ size: 12, order: 1, offset: -1 }}>
-                  <Input valid={this.state.procIsSet} invalid={!this.state.procIsSet}
+                  <Input valid={this.state.natureIsSet} invalid={!this.state.natureIsSet}
                     type="select"
                     id="selectAgence"
                     name="selectbasic"
-                    value={this.state.processus}
+                    value={this.state.nature}
                     onChange={e => {
-                      this.setState({ processus: e.target.value })
-                      if (e.target.value !== null) {
-                        this.setState({ procIsSet: true })
+                      this.setState({ nature: e.target.value })
+                      if (e.target.value !== null && e.target.value !== "") {
+                        this.setState({ natureIsSet: true })
                       }
-                      else { this.setState({ procIsSet: false }) }
+                      else { this.setState({ natureIsSet: false }) }
                     }
                     }
                   >
                     <option value="" defaultValue >Selectionner la nature :</option>
-                    <option value="Processus 1">Nature 1</option>
-                    <option value="Processus 2">Nature 2</option>
+                    <option value="auOrion">Automatique Orion</option>
+                    <option value="manuel">Manuelle</option>
+                    <option value="crm">CRM</option>
                   </Input>
-                  <FormText hidden={this.state.procIsSet}>Selectionner une nature</FormText>
+                  <FormText hidden={this.state.natureIsSet}>Selectionner une nature</FormText>
                 </Col>
                 <Row>&nbsp;</Row>
                 <Label for="exampleEmail" md={4}>Selectionner le metier :</Label>
                 <Col md={{ size: 12, order: 1, offset: -1 }}>
-                  <Input valid={this.state.procIsSet} invalid={!this.state.procIsSet}
+                  <Input valid={this.state.metierIsSet} invalid={!this.state.metierIsSet}
                     type="select"
                     id="selectAgence"
                     name="selectbasic"
-                    value={this.state.processus}
+                    value={this.state.metier}
                     onChange={e => {
-                      this.setState({ processus: e.target.value })
-                      if (e.target.value !== null) {
-                        this.setState({ procIsSet: true })
+                      this.setState({ metier: e.target.value })
+                      if (e.target.value !== null && e.target.value !== "") {
+                        this.setState({ metierIsSet: true })
                       }
-                      else { this.setState({ procIsSet: false }) }
-
+                      else { this.setState({ metierIsSet: false }) }
                     }
                     }
                   >
                     <option value="" defaultValue >Choisir un Metier :</option>
-                    <option value="Processus 1">Metier 1</option>
-                    <option value="Processus 2">Metier 2</option>
+                    <option value="1">GUICHET</option>
+                    <option value="2">CHARGE DE CLIENTELE</option>
+                    <option value="3">CHARGE D'AFFAIRES</option>
+                    <option value="4">CHEF D'AGENCE</option>
                   </Input>
-                  <FormText hidden={this.state.procIsSet}>Selectionner un metier</FormText>
+                  <FormText hidden={this.state.metierIsSet}>Selectionner un metier</FormText>
                 </Col>
-                
               </FormGroup>
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="danger" onClick={e => {
+            <Button color="danger" disabled={!(this.state.metierIsSet && this.state.libelleTach && this.state.natureIsSet && this.state.tempsUnIsSet && this.state.codeTach) } onClick={e => {
               this.toggle();
               this.handleSubmit();
             }}
