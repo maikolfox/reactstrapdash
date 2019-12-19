@@ -32,8 +32,8 @@ class MainNavBar extends React.Component {
     return (
      
         <Navbar className='headerStyle'  light expand="md">
-          <NavbarBrand href="/">
-            <img width="60%" height="60%"  src="./image/logoBridgeBank.png" alt="BBG" />
+          <NavbarBrand href="/effop/home">
+            <img width="50%" height="50%"  src="./image/logoBridgeBank.png" alt="BBG" />
           </NavbarBrand>
               <h1 id="navBarText"></h1>
         </Navbar>

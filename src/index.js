@@ -26,6 +26,7 @@ import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
 // import ChargePoidsTacheProcessus from './components/mainContent/ChargePoidsTacheProcessus';
 import ChargePoidsProcessus from './components/mainContent/ChargePoidsProcessus';
 import ParametreTab from './components/mainContent/ParametreTab';
+import SideBar ,{SwitchRoute} from "./components/asset/SideBar"
 //import DoughnutChart from './components/chartAsset/DoughnutChart';
 //import { createBrowserHistory } from "history";
 // import indexRoutes from "./route/index.jsx";
@@ -82,54 +83,78 @@ function hello() {
 }
 const Notfound = () => <h1>Page en construction</h1>
 
-const routing = (
-  <Router>
+const routingConst=[
+  {
+      url:'Accueil',
+      libelle:"Accueil",
+      component:hello
+  },
+  {
+      url:'TauxDactivite',
+      libelle:"Taux d'activité mensuel",
+      component:TauxDactivite
+  },
+  {
+      url:'ChargePoidsEmplois',
+      libelle:"Charges et poids par emplois",
+      component:Notfound
+  },
+  {
+    url:'ChargePoidsProcessus',
+    libelle:"Charge et poids par processus",
+    component:ChargePoidsProcessus
+  },
+  {
+    url:'ChargePoidsTacheProcessus',
+    libelle:"Charge et poids par tache et par processus",
+    component:Notfound
+  },
+  {
+    url:'ChargePoidsMetier',
+    libelle:"Charge et poids par tache et par metier",
+    component:Notfound
+  },
+  {
+    url:'les20tachesLourdes',
+    libelle:"Les 20 tâches les plus lourdes",
+    component:Notfound
+  },
+  {
+    url:'ParametreTab',
+    libelle:"Parametrage système",
+    component:ParametreTab
+  }
+
+]
+
+
+const MenuGeneral = ({ match }) => 
+(
+    <React.Fragment>
+         <SideBar match="/effop" menuItem={routingConst} menuName="Menu General"></SideBar>
+         <SwitchRoute basePath="/effop_" menuItem={routingConst} ></SwitchRoute>
+    </React.Fragment>
+)
+const Routing = (
+  <Router basename="/" >
     <App />
     <Row>
       <Col md={{ size: 2, order: 0, offset: 0 }}>
-        <ListGroup >
-          <ListGroupItem className="menuHeader" >
-            MENU GENERAL
-          </ListGroupItem>
-          <ListGroupItem >
-            <NavLink exact activeClassName="activeNav" to="/Accueil">Accueil</NavLink>
-          </ListGroupItem>
-          <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/TauxDactivite" >Taux d'activité mensuel</NavLink>
-          </ListGroupItem>
-          <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/ChargePoidsEmplois">Charges et poids par emplois</NavLink>
-          </ListGroupItem>
-          <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/ChargePoidsProcessus">Charge et poids par processus</NavLink>
-          </ListGroupItem>
-          <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/ChargePoidsTacheProcessus">Charge et poids par tache et par processus</NavLink>
-          </ListGroupItem>
-          <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/ChargerPoidsMetier">Charge et poids par tache et par metier</NavLink>
-          </ListGroupItem>
-          <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/les20tachesLourdes">Les 20 tâches les plus lourdes</NavLink>
-          </ListGroupItem>
-          <ListGroupItem action>
-            <NavLink exact activeClassName="activeNav" to="/ParametreTab">Parametrage système</NavLink>
-          </ListGroupItem>
-        </ListGroup>
+      <MenuGeneral/>
       </Col>
       <Col md="8">
         <Switch>
-          <Route path="/ParametreTab" component={ParametreTab} />
-          <Route path="/TauxDactivite" component={TauxDactivite} />
-          <Route path="/Accueil" component={hello} />
-          <Route exact path="/" render={() => (<Redirect to="/Accueil" />)} />
-          <Route path="/ChargePoidsProcessus" component={ChargePoidsProcessus} />
-          <Route path="/ChargePoidsTacheProcessus" component={Notfound}/>
-          <Route path="/les20tachesLourdes" component={Notfound} />
+          <Route path="/effop/ParametreTab" component={ParametreTab} />
+          <Route path="/effop/TauxDactivite" component={TauxDactivite} />
+          <Route path="/effop/Accueil" component={hello} />
+          <Router exact path="/" render={() => (<Redirect to="/Accueil" />)} />
+          <Route path="/effop/ChargePoidsProcessus" component={ChargePoidsProcessus} />
+          <Route path="/effop/ChargePoidsTacheProcessus" component={Notfound}/>
+          <Route path="/effop/les20tachesLourdes" component={Notfound} />
           <Route component={Notfound} />
         </Switch>
       </Col>
     </Row>
   </Router>)
 
-ReactDOM.render(routing, document.getElementById('root'));
+ReactDOM.render(Routing, document.getElementById('root'));
