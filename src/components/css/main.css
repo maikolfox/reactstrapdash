@@ -3,7 +3,7 @@ margin-left: 111167%;
 
 }
 
-.activeNav{color:#eb656e;}
+.activeNav{color:#d9531e;}
 
 body{
   overflow-x:hidden;
@@ -23,7 +23,7 @@ body{
     font-size:1.5 em;
       }
       a:hover {
-    color:  #eb656e;
+    color:  #d9531e;
   }
 
   a:link {
@@ -73,8 +73,8 @@ a{
 {
 
   border-radius:100px;
-  background-color: #be000e;
-  border-color: #be000e;
+  background-color: #d9531e;
+  border-color: #d9531e;
   padding-left: 15px;
   padding-right:15px;
 }
@@ -83,8 +83,8 @@ a{
 {
   color:#fff;
   border-radius:100px;
-  background-color: #be000e;
-  border-color: #be000e;
+  background-color: #d9531e;
+  border-color: #d9531e;
   padding-left: 15px;
   padding-right:15px;
 }

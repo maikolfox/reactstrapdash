@@ -26,16 +26,16 @@ import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
 // import ChargePoidsTacheProcessus from './components/mainContent/ChargePoidsTacheProcessus';
 import ChargePoidsProcessus from './components/mainContent/ChargePoidsProcessus';
 import ParametreTab from './components/mainContent/ParametreTab';
-import SideBar ,{SwitchRoute} from "./components/asset/SideBar"
-//import DoughnutChart from './components/chartAsset/DoughnutChart';
-//import { createBrowserHistory } from "history";
-// import indexRoutes from "./route/index.jsx";
+import SideBar ,{SwitchRoute} from "./components/asset/SideBar";
+import LoginPage from  "./components/mainContent/Login";
+import Auth from "./components/asset/Auth";
+
+
+
 function hello() {
   return (<React.Fragment>
 
 <Row>
-    
-      
     <Col md={{ size: 12, order: 0, offset: 0 }}>
       <h1>Bienvenu sur votre application </h1>
     </Col>
@@ -43,7 +43,6 @@ function hello() {
     <Col md={{ size: 12, order: 0, offset: 0 }}>
       <h3>Vu d'ensemble mois précedent</h3>
     </Col>
-     
      &nbsp;
     {/* <Col md={{ size: 6, order: 0, offset: 0 }}>
     <Card>
@@ -53,7 +52,6 @@ function hello() {
       </CardBody>
     </Card> 
     </Col> */}
-    
   </Row>
     <Row>
       <Col md={{ size: 4, order: 0, offset: 0 }}>
@@ -73,22 +71,19 @@ function hello() {
         </CardBody>
       </Card> 
       </Col> */}
-      
     </Row>
-
-    
-
   </React.Fragment>)
 
 }
+
 const Notfound = () => <h1>Page en construction</h1>
 
 const routingConst=[
-  {
-      url:'Accueil',
-      libelle:"Accueil",
-      component:hello
-  },
+  // {
+  //     url:'Accueil',
+  //     libelle:"Accueil",
+  //     component:hello
+  // },
   {
       url:'TauxDactivite',
       libelle:"Taux d'activité mensuel",
@@ -127,6 +122,25 @@ const routingConst=[
 
 ]
 
+const Deconnexion = ({ component: Component, ...rest }) => (
+  <Route basename={'/'}
+     {...rest}
+     render={props =>
+        Auth.remove() ? 
+        (<Redirect
+           to={{
+              pathname: "/login"
+           }}
+        />
+           
+         ) : (
+           <Component {...props} />
+           )
+      }
+  />
+  
+);
+
 
 const MenuGeneral = ({ match }) => 
 (
@@ -135,25 +149,25 @@ const MenuGeneral = ({ match }) =>
          <SwitchRoute basePath="/effop_" menuItem={routingConst} ></SwitchRoute>
     </React.Fragment>
 )
+
 const Routing = (
   <Router basename="/" >
     <App />
     <Row>
-      <Col md={{ size: 2, order: 0, offset: 0 }}>
-      <MenuGeneral/>
-      </Col>
-      <Col md="8">
+      <Col md='2'><MenuGeneral/></Col>
+      <Col md='7'>
         <Switch>
           <Route path="/effop/ParametreTab" component={ParametreTab} />
           <Route path="/effop/TauxDactivite" component={TauxDactivite} />
           <Route path="/effop/Accueil" component={hello} />
-          <Router exact path="/" render={() => (<Redirect to="/Accueil" />)} />
           <Route path="/effop/ChargePoidsProcessus" component={ChargePoidsProcessus} />
           <Route path="/effop/ChargePoidsTacheProcessus" component={Notfound}/>
           <Route path="/effop/les20tachesLourdes" component={Notfound} />
+          <Route  exact path="/effop/" render={() => (<Redirect to="/effop/Accueil" />)} />
+          <Deconnexion path="/effop/deconnexion"  component={LoginPage}/>
           <Route component={Notfound} />
-        </Switch>
-      </Col>
+       </Switch>
+       </Col>
     </Row>
   </Router>)
 

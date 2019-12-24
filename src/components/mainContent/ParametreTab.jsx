@@ -24,6 +24,8 @@ import Tableau from '../modalParametre/tableau/TableauMarche';
 import TableauTache from '../modalParametre/tableau/TableauTache';
 import TableauOperation from '../modalParametre/tableau/TableauOperation';
 import CsvHandler from '../csvAsset/CsvHandler';
+import {Push} from './subMainStyle'
+
 export default class ParametreTab extends React.Component {
     constructor(props) {
         super(props);
@@ -60,7 +62,7 @@ export default class ParametreTab extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Card>
+                <Card style={Push}>
                     <Nav tabs>
                         <NavItem>
                             <NavLink

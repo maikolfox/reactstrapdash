@@ -31,8 +31,8 @@ class MainNavBar extends React.Component {
   render() {
     return (
      
-        <Navbar className='headerStyle'  light expand="md">
-          <NavbarBrand href="/effop/home">
+        <Navbar fixed={"top"} className='headerStyle'  light expand="md">
+          <NavbarBrand href="/effop/Accueil">
             <img width="50%" height="50%"  src="./image/logoBridgeBank.png" alt="BBG" />
           </NavbarBrand>
               <h1 id="navBarText"></h1>
