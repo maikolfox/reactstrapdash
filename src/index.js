@@ -22,8 +22,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./components/css/main.css";
 import TauxDactivite from './components/mainContent/TauxDactivite.jsx';
 // import ChargePoidsEmplois from './components/mainContent/ChargePoidsEmplois';
-// import ChargePoidsTacheMetier from './components/mainContent/ChargePoidsTacheMetier';
-// import ChargePoidsTacheProcessus from './components/mainContent/ChargePoidsTacheProcessus';
+import ChargePoidsTacheMetier from './components/mainContent/ChargePoidsTacheMetier';
+import ChargePoidsTacheProcessus from './components/mainContent/ChargePoidsTacheProcessus';
 import ChargePoidsProcessus from './components/mainContent/ChargePoidsProcessus';
 import ParametreTab from './components/mainContent/ParametreTab';
 import SideBar ,{SwitchRoute} from "./components/asset/SideBar";
@@ -102,7 +102,7 @@ const routingConst=[
   {
     url:'ChargePoidsTacheProcessus',
     libelle:"Charge et poids par tache et par processus",
-    component:Notfound
+    component:ChargePoidsTacheProcessus
   },
   {
     url:'ChargePoidsMetier',
@@ -160,8 +160,10 @@ const Routing = (
           <Route path="/effop/ParametreTab" component={ParametreTab} />
           <Route path="/effop/TauxDactivite" component={TauxDactivite} />
           <Route path="/effop/Accueil" component={hello} />
+          
           <Route path="/effop/ChargePoidsProcessus" component={ChargePoidsProcessus} />
-          <Route path="/effop/ChargePoidsTacheProcessus" component={Notfound}/>
+          <Route path="/effop/ChargePoidsTacheProcessus" component={ChargePoidsTacheProcessus}/>
+          <Route path="/effop/ChargePoidsMetier" component={ChargePoidsTacheMetier}/>
           <Route path="/effop/les20tachesLourdes" component={Notfound} />
           <Route  exact path="/effop/" render={() => (<Redirect to="/effop/Accueil" />)} />
           <Deconnexion path="/effop/deconnexion"  component={LoginPage}/>

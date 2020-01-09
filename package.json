@@ -5,7 +5,7 @@
   "description": "",
   "keywords": [],
   "main": "src/index.js",
-  "proxy": "http://localhost:8089/",
+  "proxy": "http://localhost:8089/api/effop",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.19",
     "@fortawesome/free-solid-svg-icons": "^5.9.0",
