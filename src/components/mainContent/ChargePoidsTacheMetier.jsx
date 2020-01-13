@@ -11,7 +11,7 @@ export default class ChargePoidsTacheMetier extends React.Component {
       <Card style={Push}>
         <CardHeader>Charge et poids tache/metier</CardHeader>
         <CardBody>
-          <IndicatorAsset serviceUrl="/chargePoids/TacheMetier/"/>
+          <IndicatorAsset serviceUrl="/chargePoids/metier"/>
         </CardBody>
       </Card>)
     }

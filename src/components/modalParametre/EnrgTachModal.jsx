@@ -1,4 +1,5 @@
 import React from "react";
+import ConfigUrl from "../asset/ConfigUrl";
 import {
   Button,
   Modal,
@@ -31,7 +32,8 @@ class EnrgTachModal extends React.Component {
       tempsUn:'',
       tempsUnIsSet:false,
       nestedModal: false,
-      dataJson:''
+      dataJson:'',
+      responseToPost:""
     };
 
     this.toggle = this.toggle.bind(this);
@@ -39,9 +41,11 @@ class EnrgTachModal extends React.Component {
     this.toggleNested = this.toggleNested.bind(this);
   }
 
+  
+
   handleSubmit = async e=>{
     console.log(this.state.codeTach);
-      const response = await fetch('/api/effop/createTache',
+      await fetch(ConfigUrl.basePath+'/createTache',
         {
           method: 'POST',
           headers:
@@ -56,21 +60,27 @@ class EnrgTachModal extends React.Component {
               "natureTache" :this.state.nature,
               "tempUnit":this.state.tempsUn
             }),
-        });
-      const body = await response.text();
-    this.setState({ responseToPost: JSON.parse(body) });  
-    this.setState({libelleTach:""});
-    this.setState({ codeTach: "" });
-    this.setState({ tempsUn: "" });
-    this.setState({ metier:""});
-    this.setState({ tempsUn:""});
-    this.setState({ tempsUnIsSet: false });
-    this.setState({ natureIsSet: false });
-    this.setState({ tempsUnIsSet: false });
-    this.setState({ libelleTachIsSet:false });
-    this.setState({ natureIsSet: false });
-    this.setState({ metierIsSet: false });
-    this.toggle();
+        }).then(res=>res.json()).then(response=>{
+          console.log(response);
+          this.setState({ responseToPost: "Enregistrement reussie" });  
+          this.setState({libelleTach:""});
+          this.setState({ codeTach: "" });
+          this.setState({ tempsUn: "" });
+          this.setState({ metier:""});
+          this.setState({ tempsUn:""});
+          this.setState({ tempsUnIsSet: false });
+          this.setState({ natureIsSet: false });
+          this.setState({ tempsUnIsSet: false });
+          this.setState({ libelleTachIsSet:false });
+          this.setState({ natureIsSet: false });
+          this.setState({ metierIsSet: false });
+          this.toggle();
+          }
+        ).catch(error=>{
+
+          alert(error)
+        })
+    
   }
 
   toggleNested() {

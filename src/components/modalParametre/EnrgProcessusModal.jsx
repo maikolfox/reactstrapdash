@@ -27,6 +27,46 @@ class EnrgProcessusModal extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleNested = this.toggleNested.bind(this);
   }
+  handleSubmit = async e=>{
+    console.log(this.state.codeTach);
+      await fetch(ConfigUrl.basePath+'/createTache',
+        {
+          method: 'POST',
+          headers:
+          {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(
+            {
+              "codeTache":this.state.codeTach,
+              "libelleTach":this.state.libelleTach,
+              "metier":this.state.metier,
+              "natureTache" :this.state.nature,
+              "tempUnit":this.state.tempsUn
+            }),
+        }).then(res=>res.json()).then(response=>{
+          console.log(response);
+          this.setState({ responseToPost: "Enregistrement reussie" });  
+          this.setState({libelleTach:""});
+          this.setState({ codeTach: "" });
+          this.setState({ tempsUn: "" });
+          this.setState({ metier:""});
+          this.setState({ tempsUn:""});
+          this.setState({ tempsUnIsSet: false });
+          this.setState({ natureIsSet: false });
+          this.setState({ tempsUnIsSet: false });
+          this.setState({ libelleTachIsSet:false });
+          this.setState({ natureIsSet: false });
+          this.setState({ metierIsSet: false });
+          this.toggle();
+          }
+        ).catch(error=>{
+
+          alert(error)
+        })
+    
+  }
+
 
   handleSubmit() {
     console.log(this.state.descritpionProc);
@@ -68,7 +108,7 @@ class EnrgProcessusModal extends React.Component {
           <ModalBody>
             <Form onSubmit={this.handleSubmit}>
               <FormGroup >
-                <Label for="exampleEmail" md={12}>Libellé tâche</Label>
+                <Label for="exampleEmail" md={12}>Libellé Processus</Label>
                 <Col md={{ size: 12, order: 1, offset: -1 }}>
                   <Input valid={this.state.descIsSet} invalid={!this.state.descIsSet}
                     type="text"
@@ -85,10 +125,9 @@ class EnrgProcessusModal extends React.Component {
                     }
                   >
                   </Input>
-                  <FormText hidden={this.state.descIsSet}>Renseigné le libellé tâche</FormText>
+                  <FormText hidden={this.state.descIsSet}>Renseigné le libellé processus</FormText>
                 </Col>
                 <Row>&nbsp;</Row>
-                <Label for="exampleEmail" md={12}>Temps unitaire</Label>
                 <Col md={{ size: 12, order: 1, offset: -1 }}>
                   <Input valid={this.state.descIsSet} invalid={!this.state.descIsSet}
                     type="text"
@@ -105,55 +144,9 @@ class EnrgProcessusModal extends React.Component {
                     }
                   >
                   </Input>
-                  <FormText hidden={this.state.descIsSet}>Renseigné le temps unitaire</FormText>
+                  <FormText hidden={this.state.descIsSet}>Renseigné le libellé processus</FormText>
                 </Col>
-                <Row>&nbsp;</Row>
-                <Label for="exampleEmail" md={12}>Nature</Label>
-                <Col md={{ size: 12, order: 1, offset: -1 }}>
-                  <Input valid={this.state.procIsSet} invalid={!this.state.procIsSet}
-                    type="select"
-                    id="selectAgence"
-                    name="selectbasic"
-                    value={this.state.processus}
-                    onChange={e => {
-                      this.setState({ processus: e.target.value })
-                      if (e.target.value !== null) {
-                        this.setState({ procIsSet: true })
-                      }
-                      else { this.setState({ procIsSet: false }) }
-                    }
-                    }
-                  >
-                    <option value="" defaultValue >Selectionner la nature :</option>
-                    <option value="Processus 1">Nature 1</option>
-                    <option value="Processus 2">Nature 2</option>
-                  </Input>
-                  <FormText hidden={this.state.procIsSet}>Selectionner une nature</FormText>
-                </Col>
-                <Row>&nbsp;</Row>
-                <Label for="exampleEmail" md={4}>Selectionner le metier :</Label>
-                <Col md={{ size: 12, order: 1, offset: -1 }}>
-                  <Input valid={this.state.procIsSet} invalid={!this.state.procIsSet}
-                    type="select"
-                    id="selectAgence"
-                    name="selectbasic"
-                    value={this.state.processus}
-                    onChange={e => {
-                      this.setState({ processus: e.target.value })
-                      if (e.target.value !== null) {
-                        this.setState({ procIsSet: true })
-                      }
-                      else { this.setState({ procIsSet: false }) }
-
-                    }
-                    }
-                  >
-                    <option value="" defaultValue >Choisir un Metier :</option>
-                    <option value="Processus 1">Metier 1</option>
-                    <option value="Processus 2">Metier 2</option>
-                  </Input>
-                  <FormText hidden={this.state.procIsSet}>Selectionner un metier</FormText>
-                </Col>
+                <Row>&nbsp;</Row>               
               </FormGroup>
             </Form>
           </ModalBody>

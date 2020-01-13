@@ -15,7 +15,7 @@ export default class TableTache extends React.Component {
     }}
 
   async componentDidMount()
-  {await fetch(ConfigUrl.basePath+"/getTache",
+  {await fetch(ConfigUrl.basePath+"/getProcessus",
   {
     method: 'GET',
     headers:
@@ -26,7 +26,7 @@ export default class TableTache extends React.Component {
 .then(res => res.json())
     .then(reponse=>{
       console.log(reponse)
-      this.setState({ response: reponse.data.response,loaded:false });
+      this.setState({ response: reponse.data,loaded:false });
 
   }).catch(error => {
     this.setState({ loaded:false });
@@ -39,17 +39,16 @@ export default class TableTache extends React.Component {
     const table=this.state.response.map((element,index)=>(
       
       <tr>
-            {/* <th scope="row">{index+1}</th> */}
-
-            <td>{element.codeTache}</td>
-            <td>{element.libelleTach}</td>
-            <td>{element.tempUnit}</td>
-            <td>{element.natureTache}</td>
-            {/* <button
+            <th scope="row">{index+1}</th>
+            <td>{element.codeProcessus}</td>
+            <td>{element.libelleProcessus}</td>
+          
+            &nbsp; &nbsp;&nbsp; &nbsp;
+            <button
               type="button"
               className="btn btn-sm btn-primary m-2 ml-auto"
-            > */}
-              {/* <FontAwesomeIcon icon={faEdit} />
+            >
+              <FontAwesomeIcon icon={faEdit} />
             </button>
             &nbsp; &nbsp; &nbsp; &nbsp;
             <button
@@ -57,18 +56,17 @@ export default class TableTache extends React.Component {
               className="btn btn-sm btn-danger m-2 ml-auto"
             >
               <FontAwesomeIcon icon={faTrashAlt} />
-            </button> */}
-        </tr>
+            </button>
+            </tr>
     ))
     return (
       <Table responsive borderless hover>
         <thead>
           <tr>
-            <th>Code tâche</th> 
-            <th>Libelle tâche</th>
+            <th>Code processus</th>
+            <th>Libelle processus</th>
             <th>Temps unitaire</th>
-            <th>Nature</th>
-            {/* <th>Modifier/Supprimer</th> */}
+            <th>Modifier/Supprimer</th>
             <th><i class="fa fa-pencil" aria-hidden="true"></i></th>
           </tr>
         </thead>

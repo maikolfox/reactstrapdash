@@ -23,6 +23,8 @@ import EnrgTachModal from '../modalParametre/EnrgTachModal';
 import Tableau from '../modalParametre/tableau/TableauMarche';
 import TableauTache from '../modalParametre/tableau/TableauTache';
 import TableauOperation from '../modalParametre/tableau/TableauOperation';
+import TableauProcessus from '../modalParametre/tableau/TableauProcessus';
+
 import CsvHandler from '../csvAsset/CsvHandler';
 import {Push} from './subMainStyle'
 
@@ -125,7 +127,9 @@ export default class ParametreTab extends React.Component {
                                         <EnrgTachModal buttonLabel="Enregistrer une tâche"></EnrgTachModal>
                                         &nbsp;
                                         <CardTitle>Tâches enregistrées</CardTitle>
+                                        <Col style={{height:"60%",overflowY:"scroll"}}>
                                         <TableauTache></TableauTache>
+                                        </Col>
                                     </Col>
                                 </Row>
                             </TabPane>
@@ -138,7 +142,9 @@ export default class ParametreTab extends React.Component {
                                         <EnrgMarcheModal buttonLabel="Enregistrer un marché"/>
                                         &nbsp;
                                         <CardTitle>Tâches enregistrées</CardTitle>
+                                        <Col style={{height:"60%",overflowY:"scroll"}}>
                                         <Tableau></Tableau>
+                                        </Col>
                                     </Col>
                                 </Row>
                             </TabPane>
@@ -151,7 +157,9 @@ export default class ParametreTab extends React.Component {
                                         <EnrgOperationModal buttonLabel="Enregistrer une opération"/>
                                         &nbsp;
                                         <CardTitle>Tâches enregistrées</CardTitle>
+                                        <Col style={{height:"60%",overflowY:"scroll"}}>
                                         <TableauOperation/>
+                                        </Col>
                                     </Col>
                                 </Row>
                             </TabPane>
@@ -160,11 +168,13 @@ export default class ParametreTab extends React.Component {
                                 <Col md="12" sm="6">
                                         &nbsp;
                                         <CardTitle>Enregistrer processus</CardTitle>
-                                        <CardText>Cliquer sur ce boutton pour enregistrer une nouvelle tâche</CardText>
-                                        <EnrgProcessusModal buttonLabel="Enregistrer une tâche"/>
+                                        <CardText>Cliquer sur ce boutton pour enregistrer un nouveau processus</CardText>
+                                        <EnrgProcessusModal buttonLabel="Enregistrer un processus"/>
                                         &nbsp;
                                         <CardTitle>Tâches enregistrées</CardTitle>
-                                        <TableauTache></TableauTache>
+                                        <Col style={{height:"60%",overflowY:"scroll"}}>
+                                        <TableauProcessus></TableauProcessus>
+                                        </Col>
                                     </Col>
                                 </Row>
                             </TabPane>

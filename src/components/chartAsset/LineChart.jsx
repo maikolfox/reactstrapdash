@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import { FormGroup, Input, Form, Label, Col, FormText, Button } from "reactstrap";
+import { FormGroup, Input, Form, Label, Col, FormText, Button,Modal,ModalBody } from "reactstrap";
 import '../css/main.css'
-
+import ConfigUrl from '../asset/ConfigUrl';
+import Loader from '../asset/Loader';
 // constant for get chart data
 const datasProps = {
   labels: [],
@@ -12,6 +13,38 @@ const datasProps = {
     }
   ]
 };
+function returnMonth(expression)
+{
+  switch(expression) {
+  case "01/1900":
+    return "JANVIER";    
+  case "02/1900":
+    return "FEVRIER";  
+  case "03/1900":
+    return "MARS";  
+  case "04/1900":
+      return "AVRIL"; 
+  case "05/1900":
+      return "MAI";
+  case "06/1900":
+      return "JUIN";
+  case "07/1900":
+      return "JUILLET";
+  case "08/1900":
+      return "AOUT";
+  case "03/1900":
+      return "SEPTEMBRE"; 
+  case "10/1900":
+      return "OCTOBRE";
+  case "11/1900":
+      return "NOVEMBRE";
+  case "12/1900":
+      return "DECEMBRE";           
+  default:
+    // code block
+ } 
+
+}
 const chartDataUiParam = {
 
   label: '',
@@ -50,55 +83,90 @@ class LineChart extends Component {
         moisFin: '',
         responseToPost: '',
         dataToSend: [],
-        pathChartFile: ''
+        pathChartFile: '',
+        loaded:false
       }
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDownload = this.handleDownload.bind(this);
+    // this.handleDownload = this.handleDownload.bind(this);
     // this.handleOnChange = this.handleOnChange.bind(this);
 
   };
 
 
-  handleDownload = async e => {
-    e.preventDefault();
-    const generateXSLCharline = await fetch('/service/generateXSLCharline',
-      {
-        method: 'POST',
-        headers:
-        {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(
-          {
-            tauxActivite: this.state.responseToPost.taux,
-            mois: this.state.responseToPost.mois
-          }),
-      });
-    const body = await generateXSLCharline.text();
-    this.setState({ pathChartFile: JSON.parse(body) });
+  // handleDownload = async e => {
+  //   e.preventDefault();
+  //   const generateXSLCharline = await fetch('/service/generateXSLCharline',
+  //     {
+  //       method: 'POST',
+  //       headers:
+  //       {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(
+  //         {
+  //           tauxActivite: this.state.responseToPost.taux,
+  //           mois: this.state.responseToPost.mois
+  //         }),
+  //     });
+  //   const body = await generateXSLCharline.text();
+  //   this.setState({ pathChartFile: JSON.parse(body) });
 
 
 
 
-    // fake server request, getting the file url as response
-    setTimeout(() => {
-      const response = {
-        file: 'http://127.0.0.1:8887/ooxml-line-chart.xlsx',
-      };
-      // server sent the url to the file!
-      // now, let's download:
-      window.location.href = response.file;
-      // you could also do:
-      // window.open(response.file);
-    }, 100);
+  //   // fake server request, getting the file url as response
+  //   setTimeout(() => {
+  //     const response = {
+  //       file: 'http://127.0.0.1:8887/ooxml-line-chart.xlsx',
+  //     };
+  //     // server sent the url to the file!
+  //     // now, let's download:
+  //     window.location.href = response.file;
+  //     // you could also do:
+  //     // window.open(response.file);
+  //   }, 100);
 
 
 
 
-  }
+  // }
   handleSubmit = async e => {
+    if(this.state.annee<2015 || this.state.annee>2018){
+
+      window.alert("Les données de la base de s'etendent de 2015-2018") ;
+  } else{
+    this.setState({loaded:true});
     e.preventDefault();
-    const response = await fetch('/tauxDactivite',
+    // const response = await fetch('/tauxDactivite',
+    //   {
+    //     method: 'POST',
+    //     headers:
+    //     {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(
+    //       {
+    //         annee: this.state.annee,
+    //         moisDepart: this.state.moisDebut,
+    //         moisFin: this.state.moisFin
+    //       }),
+    //   });
+    // const body = await response.text();
+    // this.setState({ responseToPost: JSON.parse(body) });
+    // var dataPropsUpdate =
+    // {
+    //   ...datasProps,
+    //   labels: this.state.responseToPost.mois,
+    //   datasets: [{
+    //     ...chartDataUiParam,
+    //     data: this.state.responseToPost.taux
+    //   }]
+    // };
+    // this.setState({ dataToSend: dataPropsUpdate });
+    // console.log(dataPropsUpdate);
+    // console.log("to send : " + this.state.dataToSend);
+    //
+    await fetch(ConfigUrl.basePath+"/tauxDactivite",
       {
         method: 'POST',
         headers:
@@ -108,25 +176,23 @@ class LineChart extends Component {
         body: JSON.stringify(
           {
             annee: this.state.annee,
-            moisDepart: this.state.moisDebut,
-            moisFin: this.state.moisFin
+            moisDepart: returnMonth(this.state.moisDebut),
+            moisFin: returnMonth(this.state.moisFin),
+            agence:this.state.agence
           }),
-      });
-    const body = await response.text();
-    this.setState({ responseToPost: JSON.parse(body) });
-    var dataPropsUpdate =
-    {
-      ...datasProps,
-      labels: this.state.responseToPost.mois,
-      datasets: [{
-        ...chartDataUiParam,
-        data: this.state.responseToPost.taux
-      }]
-    };
-    this.setState({ dataToSend: dataPropsUpdate });
-    console.log(dataPropsUpdate);
-    console.log("to send : " + this.state.dataToSend);
+      }) 
+    .then(res => res.json())
+        .then(response=>{
+          console.log(response)
+          this.setState({ pathChartFile: response.data.uriFile,loaded:false });
+          window.open(ConfigUrl.basePath+"/downloadFile?fileName="+response.data.uriFile);
 
+      }).catch(error => {
+        this.setState({ loaded:false });
+        window.alert("Une erreur est survenue :"+error);
+    })
+  
+    }
   };
   render() {
     return (
@@ -274,14 +340,14 @@ class LineChart extends Component {
             <Label for="exampleEmail2" sm={12}>Année :</Label>
             <Col md={{ size: 4, order: 1, offset: -1 }}>
               <Input valid={this.state.anIsSet} invalid={!this.state.anIsSet}
-                type="select"
+                type="number"
                 name="select"
                 id="selectMoisFin"
                 value={this.state.annee}
                 onChange={e => {
                   this.setState({ annee: e.target.value })
 
-                  if (e.target.value !== "0") {
+                  if (e.target.value !== "") {
                     this.setState({ anIsSet: true })
                   }
                   else { this.setState({ anIsSet: false }) }
@@ -290,14 +356,6 @@ class LineChart extends Component {
 
                 }
               >
-                <option value="0" defaultValue >choisir une année</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-
               </Input>
               <FormText hidden={this.state.anIsSet}>Selectionner une année valide</FormText>
             </Col>
@@ -305,25 +363,28 @@ class LineChart extends Component {
           <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet) || (this.state.moisDebut > this.state.moisFin)}>Valider</Button>
 
         </Form>
-        <h2 >Courbe du Taux d'activité</h2>
-        <Line ref="chart" width={8}
+        <Modal size="sm"  isOpen={this.state.loaded}>
+          <Loader></Loader>
+        </Modal>
+        {/* <h2 >Courbe du Taux d'activité</h2> */}
+        {/* <Line ref="chart" width={8}
           height={3} data={this.state.dataToSend} />
         <Button onClick={this.handleDownload} id="ButtonTelecharger" hidden={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet) || (this.state.moisDebut > this.state.moisFin)}
-        >Telecharger le diagramme</Button>
+        >Telecharger le diagramme</Button> */}
       </div>
     );
   }
 
-  componentDidMount() {
-    this.setState.datas = this.refs.chart.chartInstance.data
-    // {console.log(this.state.datas)}
+  // componentDidMount() {
+  //   this.setState.datas = this.refs.chart.chartInstance.data
+  //   // {console.log(this.state.datas)}
 
-  }
+  // }
 
-  componentDidUpdate() {
-    //    return (<Line data={this.state.dataToSend} />);
-    //this.setState.datas  = this.refs.chart.chartInstance.data    
-  }
+  // componentDidUpdate() {
+  //   //    return (<Line data={this.state.dataToSend} />);
+  //   //this.setState.datas  = this.refs.chart.chartInstance.data    
+  // }
 
 }
 export default LineChart;

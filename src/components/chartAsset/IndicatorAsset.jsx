@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Line } from 'react-chartjs-2';
-import { FormGroup, Input, Form, Label, Col, FormText, Button } from "reactstrap";
+import { FormGroup, Input, Form, Label, Col, FormText, Button,Modal, ModalBody  } from "reactstrap";
 import '../css/main.css'
-import ConfigUrl from '../asset/ConfigUrl'
+import ConfigUrl from '../asset/ConfigUrl';
+import Loader from '../asset/Loader';
 // constant for get chart data
 const datasProps = {
   labels: [],
@@ -83,7 +84,10 @@ class LineChart extends Component {
         moisFin: '',
         responseToPost: '',
         dataToSend: [],
-        pathChartFile: ''
+        pathChartFile: '',
+        fileName:"",
+        loaded:false,
+        downloaded:false
       }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleDownload = this.handleDownload.bind(this);
@@ -111,12 +115,13 @@ class LineChart extends Component {
     // this.setState({ pathChartFile: JSON.parse(body) });
 
 
+    window.location.href = this.state.pathChartFile
 
 
     // fake server request, getting the file url as response
     setTimeout(() => {
       const response = {
-        file: 'http://127.0.0.1:8887/ooxml-line-chart.xlsx',
+        file: ConfigUrl.basePath+this.state.fileName,
       };
       // server sent the url to the file!
       // now, let's download:
@@ -133,8 +138,15 @@ class LineChart extends Component {
 
   handleSubmit = async e => {
     var urlService=this.state.agence==="allAgence" ? this.props.serviceUrl+"/agence" : this.props.serviceUrl ;
+   
+    if(this.state.annee<2015 || this.state.annee>2018){
+
+        window.alert("Les données de la base de s'etendent de 2015-2018") ;
+    } else{
+      this.setState({loaded:true});
+
     e.preventDefault();
-    const response = await fetch(ConfigUrl.basePath+this.props.serviceUrl,
+     await fetch(ConfigUrl.basePath+this.props.serviceUrl,
       {
         method: 'POST',
         headers:
@@ -148,12 +160,18 @@ class LineChart extends Component {
             moisFin: returnMonth(this.state.moisFin),
             agence:this.state.agence
           }),
-      });
-    const body = await response.text();
+      }).then(res => res.json())
+        .then(response=>{
+          console.log(response)
+          this.setState({ pathChartFile: response.data.uriFile,loaded:false });
+          window.open(ConfigUrl.basePath+"/downloadFile?fileName="+response.data.uriFile);
 
-    console.log(body);
-      const dataObj = JSON.parse(body);
-    this.setState({ pathChartFile: dataObj.data.uriFile });
+      }).catch(error => {
+        this.setState({ loaded:false });
+        window.alert("Une erreur est survenue :"+error);
+    })
+
+    
     // this.setState({ responseToPost: JSON.parse(body) });
     // var dataPropsUpdate =
     // {
@@ -167,8 +185,8 @@ class LineChart extends Component {
     // this.setState({ dataToSend: dataPropsUpdate });
     // console.log(dataPropsUpdate);
     // console.log("to send : " + this.state.dataToSend);
-
-  };
+    };
+  }
   render() {
     return (
       <div>
@@ -343,14 +361,14 @@ class LineChart extends Component {
             <Label for="exampleEmail2" sm={12}>Année :</Label>
             <Col md={{ size: 4, order: 1, offset: -1 }}>
               <Input valid={this.state.anIsSet} invalid={!this.state.anIsSet}
-                type="select"
+                type="number"
                 name="select"
                 id="selectMoisFin"
                 value={this.state.annee}
                 onChange={e => {
                   this.setState({ annee: e.target.value })
 
-                  if (e.target.value !== "0") {
+                  if (e.target.value !== "") {
                     this.setState({ anIsSet: true })
                   }
                   else { this.setState({ anIsSet: false }) }
@@ -359,26 +377,19 @@ class LineChart extends Component {
 
                 }
               >
-                <option value="0" defaultValue >choisir une année</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-                <option value="2018">2018</option>
-                <option value="2019">2019</option>
-                <option value="2020">2020</option>
-
               </Input>
               <FormText hidden={this.state.anIsSet}>Selectionner une année valide</FormText>
             </Col>
           </FormGroup>
           <Button id="ButtonValider" disabled={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet) || (this.state.moisDebut > this.state.moisFin)}>Valider</Button>
-
         </Form>
+        <Modal size="sm"  isOpen={this.state.loaded}>
+          <Loader></Loader>
+        </Modal>
         {/* <h2 >Courbe du Taux d'activité</h2> */}
         {/* <Line ref="chart" width={8}
           height={3} data={this.state.dataToSend} /> */}
-        <Button onClick={this.handleDownload} id="ButtonTelecharger" hidden={!(this.state.mfIsSet && this.state.mdIsSet && this.state.agIsSet && this.state.anIsSet) || (this.state.moisDebut > this.state.moisFin)}
-        >Telecharger le diagramme</Button>
+        
       </div>
     );
   }
