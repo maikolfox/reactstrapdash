@@ -1,4 +1,5 @@
 import React from "react";
+import ConfigUrl from "../asset/ConfigUrl";
 import {
   Button,
   Modal,
